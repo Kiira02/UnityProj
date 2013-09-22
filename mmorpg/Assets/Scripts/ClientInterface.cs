@@ -49,7 +49,7 @@ public class ClientInterface : MonoBehaviour {
 		allPlayers = new Dictionary<string, Player>();
 		removeList = new List<Player>();
 		
-		client = new Client("http://192.168.1.106:3000");
+		client = new Client("http://birhoff.dyndns.org:3000");
 		
 		client.Opened += SocketOpened;
 		client.Message += SocketMessage;
