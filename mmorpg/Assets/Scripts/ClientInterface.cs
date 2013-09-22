@@ -49,7 +49,7 @@ public class ClientInterface : MonoBehaviour {
 		allPlayers = new Dictionary<string, Player>();
 		removeList = new List<Player>();
 		
-		client = new Client("http://birhoff.dyndns.org:3000");
+		client = new Client("http://188.231.242.101:3000");
 		
 		client.Opened += SocketOpened;
 		client.Message += SocketMessage;
@@ -324,7 +324,7 @@ public class ClientInterface : MonoBehaviour {
 		GUI.SetNextControlName("CMD");
 		chatString = GUI.TextField(new Rect(10,Screen.height-30-10,Screen.width-130,30), chatString);
 		
-		/*GUI.SetNextControlName("DebugTextView");
+		GUI.SetNextControlName("DebugTextView");
 		GUILayout.BeginArea(new Rect(50, 50, Screen.width-100, 100));
 		
  			scrollPosition = GUILayout.BeginScrollView (
@@ -335,7 +335,7 @@ public class ClientInterface : MonoBehaviour {
 			GUILayout.Label (uiMessage);
 		 	GUILayout.EndScrollView ();
 		 
-		 GUILayout.EndArea();*/
+		 GUILayout.EndArea();
 		
 	}
 	
