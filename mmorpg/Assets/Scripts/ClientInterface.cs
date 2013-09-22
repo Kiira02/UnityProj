@@ -294,35 +294,10 @@ public class ClientInterface : MonoBehaviour {
 	void OnGUI() {
 		if (GUI.Button(new Rect(Screen.width-110,Screen.height-30-10,100,30), "Send Message")) {
 			if (conected) {
-				client.Send("teeest");
+				client.Send("{\"type\":\"PlayerUpdate\", \"args\":{\"name\":\"test\"}}");
 				
 			}
 		}
-		
-		Event e = Event.current;
-		if (e.keyCode == KeyCode.Return)
-		{
-			if (GUI.GetNameOfFocusedControl()=="CMD") 
-			{
-				if (chatString.Length>0) 
-				{
-					if (chatString=="login") {
-						client.Send(LoginCommand);
-						tryLogin = true;
-					}
-					
-					chatString="";
-				}
-				
-				GUI.SetNextControlName("");
-				GUI.FocusControl("");
-			} else {
-				GUI.FocusControl("CMD");
-			}
-		}
-		
-		GUI.SetNextControlName("CMD");
-		chatString = GUI.TextField(new Rect(10,Screen.height-30-10,Screen.width-130,30), chatString);
 		
 		GUI.SetNextControlName("DebugTextView");
 		GUILayout.BeginArea(new Rect(50, 50, Screen.width-100, 100));
