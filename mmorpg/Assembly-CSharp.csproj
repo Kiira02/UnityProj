@@ -48,9 +48,6 @@
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\SimpleJSON.cs" />
      <Compile Include="Assets\Scripts\UI\ClienGUI.cs" />
-     <Compile Include="Assets\asd.cs" />
-     <Compile Include="Assets\test.cs" />
-     <Compile Include="Assets\test2.cs" />
  <Reference Include="ICSharpCode.SharpZipLib">
  <HintPath>Assets\Scripts\ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
