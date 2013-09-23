@@ -43,8 +43,19 @@ public class ClientInterface : MonoBehaviour {
 	private Vector3 updatePosition;
 	private Vector3 moveToPosition;
 	
+	private bool canUpdate = false;
+	
+	private bool canHide = false;
+	private float lastLength = 0;
+	private int lines = 0;
+	
 	// Use this for initialization
 	void Start () {
+
+	}
+	
+	public void Login()
+	{
 		playersToAdd = new List<Player>();
 		allPlayers = new Dictionary<string, Player>();
 		removeList = new List<Player>();
@@ -66,6 +77,8 @@ public class ClientInterface : MonoBehaviour {
 		players.transform.parent = game.transform;
 		
 		StartCoroutine(updateCheck());
+		
+		canUpdate = true;
 	}
 	
 	IEnumerator updateCheck()
@@ -90,6 +103,8 @@ public class ClientInterface : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!canUpdate) return;
+		
 		foreach (Player pl in playersToAdd) 
 		{
 			pl.Model = (GameObject)Instantiate(Node, pl.Position, Quaternion.identity);
@@ -179,8 +194,11 @@ public class ClientInterface : MonoBehaviour {
 	
 	private void SocketOpened(object sender, EventArgs e) {
     	//invoke when socket opened
-		uiMessage += "Socket Open\n";
+		uiMessage += System.DateTime.Now.ToString("HH:mm : ")+"Socket Open\n";
+		uiMessage += System.DateTime.Now.ToString("HH:mm : ")+"In Chat print /help to see help reference\n";
 		conected = true;
+			
+		canHide = true;
 		
 		client.On("test", (data)=> {
 		});
@@ -280,19 +298,29 @@ public class ClientInterface : MonoBehaviour {
 	}
 	
 	private void SocketConnectionClosed(object sender, EventArgs e) {
-		uiMessage += "SocketClose\n";
+		uiMessage +=  System.DateTime.Now.ToString("HH:mm : ")+"SocketClose\n";
 		client.Close();
 	}
 	
 	private void SocketError(object sender, SocketIOClient.ErrorEventArgs e) {
     	if ( e!= null) {
 	        string msg = e.Message;
-			uiMessage += "Error: "+msg+"\n";
+			uiMessage += System.DateTime.Now.ToString("HH:mm : ")+ "Error: "+msg+"\n";
 	    }
 	}
 	
 	void OnGUI() {
-		if (GUI.Button(new Rect(Screen.width-110,Screen.height-30-10,100,30), "Send Message")) {
+		if (!canUpdate) return;
+		
+		if (canHide) 
+		{
+			this.GetComponent<LoginLayerGUI>().enabled = false;
+			this.GetComponent<LoginSideMenuLayerGUI>().enabled = false;
+			this.GetComponent<ClienGUI>().enabled = true;	
+			canHide = false;
+		}
+		
+		if (GUI.Button(new Rect(Screen.width-110,Screen.height-30-10,100,20), "Send Message")) {
 			if (conected) {
 				client.Send("{\"type\":\"PlayerUpdate\", \"args\":{\"name\":\"test\"}}");
 				
@@ -305,19 +333,53 @@ public class ClientInterface : MonoBehaviour {
  			scrollPosition = GUILayout.BeginScrollView (
 			scrollPosition, 
 			GUILayout.Width (Screen.width-100), 
-			GUILayout.Height (Screen.height-100));
+			GUILayout.Height (100));
 		
 			GUILayout.Label (uiMessage);
 		 	GUILayout.EndScrollView ();
-		 
+	
 		 GUILayout.EndArea();
 		
+		if (uiMessage!=null) {
+			if (lastLength<uiMessage.Length)
+			{
+				lastLength=uiMessage.Length;
+				print (lastLength.ToString());
+				if (lastLength>180) {
+					scrollPosition.y = Mathf.Infinity;
+				}
+			}
+		}
 	}
 	
 	
 	void OnApplicationQuit() {
 		if (conected) {
-			client.Close();	
+			if (client!=null) {
+				client.Close();	
+			}
 		}
     }
+	
+	public void Disconect()
+	{
+		if (conected)
+		{
+			uiMessage += System.DateTime.Now.ToString("HH:mm : ")+ "SocketClose\n";
+			client.Close();
+			client = null;
+			conected = false;
+			canUpdate = false;
+			this.GetComponent<LoginLayerGUI>().enabled = true;
+			this.GetComponent<LoginSideMenuLayerGUI>().enabled = true;
+			this.GetComponent<ClienGUI>().enabled = false;	
+		}
+	}
+	
+	public void PrintHelp()
+	{
+		uiMessage += System.DateTime.Now.ToString("HH:mm : ")+ "Help v0.0.1\n" +
+			"		/help - print client-server help commands\n" +
+			"		/disconect - logout from game, move to main screen\n";
+	}
 }

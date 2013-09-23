@@ -1,9 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\test.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ClientInterface.cs">
     <Files>
-      <File FileName="Assets\test.cs" Line="5" Column="2" />
-      <File FileName="Assets\Scripts\ClientInterface.cs" Line="33" Column="36" />
+      <File FileName="Assets\Scripts\UI\ClienGUI.cs" Line="48" Column="25" />
+      <File FileName="Assets\Scripts\ClientInterface.cs" Line="345" Column="5" />
+      <File FileName="Assets\Scripts\UI\Login\LoginScreenGUI.cs" Line="4" Column="42" />
+      <File FileName="Assets\Scripts\UI\Login\LoginLayerGUI.cs" Line="75" Column="4" />
+      <File FileName="Assets\Scripts\UI\Login\LoginSideMenuLayerGUI.cs" Line="51" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
